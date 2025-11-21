@@ -1,0 +1,41 @@
+channels:
+  slack:
+    enabled: true
+    webhook_url: https://hooks.slack.com/services/EXAMPLE/TOKEN
+    default_channel: "#alerts"
+    username: "monitoringbot"
+  email:
+    enabled: true
+    sender: "alerts@example.com"
+    recipients:
+      - "oncall@example.com"
+    smtp_host: "localhost"
+    smtp_port: 25
+    smtp_username: null
+    smtp_password: null
+    use_tls: false
+  webhook:
+    enabled: true
+    endpoint: https://hooks.example.com/monitoring
+    headers:
+      Authorization: "Bearer CHANGE_ME"
+
+dedupe:
+  redis_url: redis://localhost:6379/0
+  ttl_seconds: 300
+  key_prefix: notifier
+
+routing:
+  critical:
+    channels:
+      - slack
+      - email
+      - webhook
+  warning:
+    channels:
+      - slack
+    batch_size: 10
+    batch_window_seconds: 300
+  info:
+    channels:
+      - slack
