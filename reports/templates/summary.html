@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hourly Monitoring Summary</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Hourly Monitoring Summary</h1>
+    <p>Generated at {{ generated_at }}.</p>
+    <h2>Severity breakdown (last hour)</h2>
+    <ul>
+        {% for severity, count in summary.items() %}
+        <li><strong>{{ severity }}</strong>: {{ count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Events</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Time (UTC)</th>
+                <th>Severity</th>
+                <th>Source</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.occurred_at }}</td>
+                <td>{{ event.severity }}</td>
+                <td>{{ event.source }}</td>
+                <td>{{ event.message }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No events matching the selected severities in the last hour.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
